@@ -42,16 +42,18 @@ def Copy(source_dir,repo_dir):
         for file in files:
             if file.lower().endswith('.dll'):  # 先筛出 DLL
                 # 根据条件判断是否复制
-                if file in file_names:  # 精确匹配文件名
-                    src = os.path.join(root, file)
-                    dst = repo_path / file
-                    # 处理重名：如果同名文件已存在，可以重命名或覆盖
-                    if dst.exists():
-                        os.remove(dst)
-                        shutil.copy2(src, dst)
-                    else:
-                        shutil.copy2(src, dst)
-                    print(f"已复制: {file}")
+                for item in file_names:
+                    if item in file:  # 精确匹配文件名
+                        src = os.path.join(root, file)
+                        dst = repo_path / file
+                        # 处理重名：如果同名文件已存在，可以重命名或覆盖
+                        if dst.exists():
+                            os.remove(dst)
+                            shutil.copy2(src, dst)
+                        else:
+                            shutil.copy2(src, dst)
+                        print(f"已复制: {file}")
+                        break
                 # 如果用通配符，可改用 fnmatch
                 # import fnmatch
                 # for pattern in patterns:
