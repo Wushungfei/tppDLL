@@ -47,10 +47,11 @@ def Copy(source_dir,repo_dir):
                     dst = repo_path / file
                     # 处理重名：如果同名文件已存在，可以重命名或覆盖
                     if dst.exists():
-                        print(f"跳过已存在文件: {file}")
+                        os.remove(dst)
+                        shutil.copy2(src, dst)
                     else:
                         shutil.copy2(src, dst)
-                        print(f"已复制: {file}")
+                    print(f"已复制: {file}")
                 # 如果用通配符，可改用 fnmatch
                 # import fnmatch
                 # for pattern in patterns:
